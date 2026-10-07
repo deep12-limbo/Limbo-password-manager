@@ -1,0 +1,9 @@
+{
+  "name": "password-manager-root",
+  "private": true,
+  "workspaces": [
+    "my-app",
+    "pm extention",
+    "packages/shared"
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "name": "@pm/shared",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "type": "module",
+  "dependencies": {
+    "axios": "^1.20.0",
+    "react-hook-form": "^7.88.0"
+  }
+}
