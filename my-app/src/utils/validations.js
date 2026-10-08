@@ -16,7 +16,7 @@ export function buildFieldRules(field) {
         if (validations.maxLength !== undefined) {
             rules.maxLength = {
                 value: validations.maxLength,
-                message: `${field.latembel} must be at most ${validations.maxLength} characters`,
+                message: `${field.label} must be at most ${validations.maxLength} characters`,
             };
         }
         if (validations.min !== undefined || validations.max !== undefined) {
@@ -55,6 +55,25 @@ export function buildFieldRules(field) {
                     `${field.label} has an invalid selection`
                 );
             },
+        };
+    }
+
+
+    
+    /*
+     * Custom cross-field / arbitrary validation, e.g.
+     * confirmPassword's "must match password" check.
+     * Supports either:
+     *   validate: (value, formValues) => true | "error message"
+     * or a named map:
+     *   validate: { matchesPassword: (value, formValues) => ... }
+     */
+    if (validations.validate) {
+        rules.validate = {
+            ...(rules.validate || {}),
+            ...(typeof validations.validate === "function"
+                ? { custom: validations.validate }
+                : validations.validate),
         };
     }
 

@@ -30,6 +30,7 @@ export default function (props) {
 
   const loginHandler = async (formData) => {
     try {
+      const { confirmPassword, ...payload } = formData;
 
       const url = isExtensionLogin
         ? `${apis_urls.login}?source=extension`
@@ -39,7 +40,7 @@ export default function (props) {
       const response = await http.sendRequest(
         url,
         "POST",
-        formData
+        payload
       );
 
       if (
@@ -116,7 +117,7 @@ export default function (props) {
 
 
         callbackUrl.searchParams.set(
-          "code", 
+          "code",
           code
         );
 
@@ -155,13 +156,23 @@ export default function (props) {
 
 
   const registerHandler = async (formData) => {
-    console.log("Register data:", formData);
+
+
+    if (formData.password !== formData.confirmPassword) {
+      console.error("Passwords do not match");
+      return;
+    }
+
+
+    const { confirmPassword, ...payload } = formData;
+
+    console.log("Register data:", payload);
 
     try {
       const response = await http.sendRequest(
         apis_urls.register,
         "POST",
-        formData
+        payload
       );
 
       if (!response?.success) {
@@ -184,4 +195,5 @@ export default function (props) {
 
     http: http,
   };
+
 }

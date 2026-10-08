@@ -180,7 +180,7 @@ export default function ItemsManager({
 
 
     return (
-        <div className="h-svh flex flex-col gap-y-2  items-between justify-between ">
+        <div className=" flex flex-col gap-y-2  items-between justify-between ">
 
             {/* -----------------------------------------
                 Toolbar
@@ -195,7 +195,7 @@ export default function ItemsManager({
 
                 <div className="w-full text-2xl font-semibold text-start mt-3">Your Digital Vault</div>
                 <div className="w-full text-xs  text-start mt-[-1]">safely manage and access your passwords  </div>
-                <div className="my-3 w-full border-dashed border-1 border-[#A3A3A3]"></div>
+                <div className="my-3 w-full  border-b-1 border-border"></div>
 
                 <div className="w-full mt-7 flex flex-row items-center ">
 

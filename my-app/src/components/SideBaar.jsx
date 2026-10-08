@@ -5,43 +5,34 @@ import { ThemeContext } from "../context/themeContext";
 import ROUTES from "../routers/routespath";
 import Button from "./ui/Button";
 import { cn } from "../utils/cn";
-import { BankIcon, ChevronLeftIcon, ChevronRightIcon, DocumentsIcon, GoogleIcon, LogoutIcon, MoonIcon, NotesIcon, SunIcon, VaultIcon } from "./ui/icons";
+import {
+    BankIcon,
+    CloseIcon,
+    CollapseSideBarIcon,
+    DocumentsIcon,
+    GoogleIcon,
+    LogoutIcon,
+    MoonIcon,
+    NotesIcon,
+    SunIcon,
+    VaultIcon,
+} from "./ui/icons";
 import UserContext from "../context/user/usercontext";
 import withSidebarButton from "./HOC/WithSideBarButton";
 
-
-
-
-// .sidebar-item--active {
-//   background: var(--sidebar-item-hover-bg);
-//   color: var(--sidebar-text);
-//   border: 1px solid transparent;
-//   border-right: 1px solid var(--overlay-08);
-//   border-bottom: 1px solid rgba(129, 129, 129, 0.05);
-//   box-shadow: var(--sidebar-item-hover-shadow);
-//   font-weight: 500;
-// }
-
-// .sidebar-item--active .sidebar-item-label {
-//   color: var(--sidebar-item-active);
-// }
-// /* Remove the blue left border — not needed with this style */
-// .sidebar-item--active::before {
-//   display: none;
-// }
-
-
-
-
 const SidebarButton = withSidebarButton(Button);
 
-export default function Sidebar({ isCollapsed, setIsCollapsed }) {
+export default function Sidebar({
+    isCollapsed,
+    setIsCollapsed,
+    isDrawer = false,
+    setIsDrawerOpen,
+}) {
     const navigate = useNavigate();
     const location = useLocation();
 
     const { toggleTheme, isDark } = useContext(ThemeContext);
     const { isLoggedIn, logout } = useContext(UserContext);
-
 
     const isGoogleRoute =
         location.pathname === ROUTES.GOOGLE_ITEMS;
@@ -51,137 +42,139 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }) {
 
     const handleNavigation = (route) => {
         navigate(route);
-    };
 
+        // Close drawer after navigation on mobile
+        if (isDrawer) {
+            setIsDrawerOpen?.(false);
+        }
+    };
 
     const handleAuthClick = () => {
         if (isLoggedIn) {
             logout();
+
             const login = ROUTES.LOGIN;
 
             if (location.pathname !== login) {
                 navigate(login);
             }
 
-            return;
+            if (isDrawer) {
+                setIsDrawerOpen?.(false);
+            }
         }
-
     };
+    const [showCollapseButton, setShowCollapseButton] = useState(false);
 
     return (
-        <aside
+        <div
+            onMouseOver={() => setShowCollapseButton(true)}
+            onMouseLeave={() => setShowCollapseButton(false)}
             className={cn(
                 "sidebar",
-                "fixed  flex h-screen shrink-0 flex-col",
-                "border-r border-border bg-surface shadow-sm border-r-1 border-border",
-                "transition-[width] duration-300 ease-in-out z-[1] py-5 px-3",
-                isCollapsed ? "w-15" : "w-54"
+                "flex h-full w-full flex-col",
+                "border-r border-border bg-surface shadow-sm",
+                "py-3 px-2"
             )}
         >
             {/* Header */}
             <div
                 className={cn(
-                    "flex h-10 items-start",
+                    "flex h-8 w-full items-center",
                     isCollapsed
-                        ? "justify-center "
-                        : "justify-between "
+                        ? "justify-center"
+                        : "justify-between"
                 )}
             >
-                {/* Logo / App Icon */}
-
                 {isCollapsed ? (
-                    <div
-                        className="
-                            flex size-10 items-center justify-center
-                            rounded-lg bg-electric-violet-400 text-white
-                            text-xl font-bold
-                        "
-                    >
-                        P
-                    </div>
-                ) : (
-                    <div className="flex items-center gap-3">
-
-                        {/* logo */}
-                        {/* <div
+                    /*
+                     * Collapsed: show the "P" logo by default,
+                     * swap to the expand button on hover (the
+                     * hover state is tracked on the whole sidebar
+                     * via showCollapseButton above).
+                     */
+                    showCollapseButton ? (
+                        <button
+                            type="button"
+                            onClick={() => setIsCollapsed(false)}
                             className="
-                                flex size-9 items-center justify-center
-                                rounded-lg bg-electric-violet-400 text-white
-                                font-bold
+                                flex size-8 items-center justify-center
+                                rounded-lg bg-surface-hover text-text
+                            "
+                            aria-label="Expand sidebar"
+                        >
+                            <CollapseSideBarIcon size={14} />
+                        </button>
+                    ) : (
+                        <div
+                            className="
+                                flex size-8 items-center justify-center
+                                rounded-lg bg-electric-violet-400
+                                text-sm font-bold text-white
                             "
                         >
                             P
-                        </div> */}
-
-                        <span className="font-semibold text-text-h text-[16x]  ">
+                        </div>
+                    )
+                ) : (
+                    <>
+                        <span className="text-[14px] font-semibold text-text-h">
                             Passwords
                         </span>
 
-                    </div>
+                        {isDrawer ? (
+                            <button
+                                type="button"
+                                onClick={() => setIsDrawerOpen?.(false)}
+                                className="
+                                    flex size-7 items-center justify-center
+                                    rounded-md text-text
+                                    hover:bg-surface-hover hover:text-text-h
+                                "
+                                aria-label="Close sidebar"
+                            >
+                                <CloseIcon size={14} />
+                            </button>
+                        ) : (
+                            <button
+                                type="button"
+                                onClick={() => setIsCollapsed(true)}
+                                className="
+                                    flex size-7 items-center justify-center
+                                    rounded-md text-text
+                                    hover:bg-surface-hover hover:text-text-h
+                                "
+                                aria-label="Collapse sidebar"
+                            >
+                                <CollapseSideBarIcon size={14} />
+                            </button>
+                        )}
+                    </>
                 )}
-
-
-
-                {/* Collapse button */}
-                {/* <button
-                    type="button"
-                    onClick={() => {
-                        setIsCollapsed((prev) => !prev);
-                    }
-
-                    }
-                    className={cn(
-                        "flex size-9 items-center justify-center rounded-md",
-                        "text-text transition-colors",
-                        "hover:bg-accent-bg hover:text-text-h",
-                        isCollapsed && "hidden"
-                    )}
-                    aria-label="Collapse sidebar"
-                >
-                    <ChevronLeftIcon />
-                </button> */}
             </div>
 
-
-            {/* Collapsed expand button */}
-
-            {/* removing the feature of collapsing the sidebar date- 05-10    */}
-
-            {/* {isCollapsed && (
-                <div className="flex justify-center py-3">
-                    <button
-                        type="button"
-                        onClick={() => setIsCollapsed(false)}
-                        className="
-                            flex size-9 items-center justify-center
-                            rounded-md text-text
-                            hover:bg-accent-bg hover:text-text-h
-                            transition-colors
-                        "
-                        aria-label="Expand sidebar"
-                    >
-                        <ChevronRightIcon />
-                    </button>
-                </div>
-            )} */}
-
-
-
-
-            <div className="text-start text-[12px] text-text-h ">
+            {/* Categories */}
+            <div
+                className={cn(
+                    "h-5 text-start text-[11px] text-text-h",
+                    isCollapsed && "invisible"
+                )}
+            >
                 Categories
             </div>
+
 
             {/* Navigation */}
             <nav className="flex-1 space-y-[4px] py-4">
 
-                {/* Google */}
                 <SidebarButton
                     active={isGoogleRoute}
                     isCollapsed={isCollapsed}
                     icon={<GoogleIcon size={3} />}
                     label="Google Items"
-                    onClick={() => handleNavigation(ROUTES.GOOGLE_ITEMS)}
+                    onClick={() =>
+                        handleNavigation(ROUTES.GOOGLE_ITEMS)
+                    }
                 />
 
                 <SidebarButton
@@ -189,39 +182,49 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }) {
                     isCollapsed={isCollapsed}
                     icon={<VaultIcon size={4} />}
                     label="Vault Items"
-                    onClick={() => handleNavigation(ROUTES.VAULT_ITEMS)}
+                    onClick={() =>
+                        handleNavigation(ROUTES.VAULT_ITEMS)
+                    }
                 />
 
                 <SidebarButton
                     isCollapsed={isCollapsed}
-                    icon={<BankIcon size={4} />}
+                    icon={
+                        <BankIcon
+                            size={4}
+                            className="text-textdim"
+                        />
+                    }
                     label="Bank Passwords"
-                    onClick={() => handleNavigation(ROUTES.VAULT_ITEMS)}
+                    textClassName="text-textdim"
                 />
 
                 <SidebarButton
                     isCollapsed={isCollapsed}
-                    icon={<DocumentsIcon size={4} />}
+                    icon={
+                        <DocumentsIcon
+                            size={4}
+                            className="text-textdim"
+                        />
+                    }
                     label="Documents"
-                    onClick={() => handleNavigation(ROUTES.VAULT_ITEMS)}
+                    textClassName="text-textdim"
                 />
 
                 <SidebarButton
                     isCollapsed={isCollapsed}
-                    icon={<NotesIcon size={4} />}
+                    icon={
+                        <NotesIcon
+                            size={4}
+                            className="text-textdim"
+                        />
+                    }
                     label="Notes"
-                    onClick={() => handleNavigation(ROUTES.VAULT_ITEMS)}
+                    textClassName="text-textdim"
                 />
-
             </nav>
 
-
-
-
-            {/* Bottom theme toggle */}
-
-
-
+            {/* Theme */}
             <div className="py-2">
                 <SidebarButton
                     active={false}
@@ -230,10 +233,17 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }) {
                     label={isDark ? "Light mode" : "Dark mode"}
                     onClick={toggleTheme}
                     textClassName="text-[11px]"
-                    className="text-text hover:bg-surface-hover hover:text-text-h active:translate-y-0 active:shadow-none"
+                    className="
+                        text-text
+                        hover:bg-surface-hover
+                        hover:text-text-h
+                        active:translate-y-0
+                        active:shadow-none
+                    "
                 />
             </div>
 
+            {/* Logout */}
             <div className="border-t border-border py-2">
                 <SidebarButton
                     active={false}
@@ -242,9 +252,15 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }) {
                     label="Logout"
                     onClick={handleAuthClick}
                     textClassName="text-[11px]"
-                    className="text-text hover:bg-surface-hover hover:text-text-h active:translate-y-0 active:shadow-none"
+                    className="
+                        text-text
+                        hover:bg-surface-hover
+                        hover:text-text-h
+                        active:translate-y-0
+                        active:shadow-none
+                    "
                 />
             </div>
-        </aside>
+        </div>
     );
 }

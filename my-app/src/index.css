@@ -1,5 +1,6 @@
-
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
 
 /* ========================================
    Light Theme
@@ -109,7 +110,7 @@
 :root.dark {
     /* --text: #9ca3af; */
         --text: #f2f6fc;
-         --text-dim:#a4a3a3;
+         --textdim:#a4a3a3;
     --text-heading: #f3f4f6;
     
 
@@ -123,9 +124,9 @@
 
     /* --surface: #1f2028;
      */
-     --surface: #020711;
+    --surface: #020711;
     --surface-hover: #2f303a;
---surface-background: #191c21;
+    --surface-background: #191c21;
     --accent: #c084fc;
     --accent-background: rgba(192, 132, 252, 0.15);
     --accent-border: rgba(192, 132, 252, 0.5);
@@ -158,8 +159,10 @@
 
 @theme {
 
+  --font-inter: "Inter", sans-serif;
+  /* --color-textdim : var(--textdim) */
 
-   --color-overlay-08: var(--overlay-08);
+  --color-overlay-08: var(--overlay-08);
 
   --background-image-sidebar-item-hover: var(--sidebar-item-hover-bg);
 
@@ -170,8 +173,9 @@
     ---------------------------------------- */
 
 
-
-   --color-textdim : var(--textdim)
+    --color-text:var(--text);
+    --color-textheading:var(--textheading);
+   --color-textdim : var(--textdim);
 
     --color-background: var(--background);
     --color-foreground: var(--text);

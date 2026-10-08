@@ -6,20 +6,20 @@ const sizes = {
   md: "h-5 w-5",
 };
 
+export default function Checkbox({
+  checked = false,
+  indeterminate = false,
+  onChange,
+  disabled = false,
+  size = "sm",
+  label,
+  className = "",
+  boxClassName = "",
+  labelClassName = "",
+  ...props
+}) {
+  const isActive = checked || indeterminate;
 
-export default function
-  Checkbox({
-    checked = false,
-    indeterminate = false,
-    onChange,
-    disabled = false,
-    size = "sm",
-    label,
-    className = "",
-    boxClassName = "",
-    labelClassName = "",
-    ...props
-  }) {
   return (
     <label
       className={cn(
@@ -41,11 +41,11 @@ export default function
         <span
           aria-hidden="true"
           className={cn(
-            "inline-flex items-center justify-center rounded-sm border border-border bg-background",
-            "text-primary-foreground ",
-            "peer-focus-visible:ring-2 peer-focus-visible:ring-primary/40 peer-focus-visible:ring-offset-1 peer-focus-visible:ring-offset-background",
+            "inline-flex items-center justify-center rounded-sm border border-border",
+            "bg-transparent",
+            "peer-focus-visible:ring-2 peer-focus-visible:ring-primary/40",
             !disabled && "group-hover:border-primary",
-            (checked || indeterminate) && "border-primary bg-primary",
+            isActive && "border-primary bg-primary",
             sizes[size],
             boxClassName
           )}
@@ -55,7 +55,7 @@ export default function
           )}
 
           {checked && (
-            <span className="inline-flex [&>svg]:h-3 [&>svg]:w-3">
+            <span className="inline-flex text-primary-foreground [&>svg]:h-3 [&>svg]:w-3">
               <CheckIcon />
             </span>
           )}
@@ -63,7 +63,12 @@ export default function
       </span>
 
       {label && (
-        <span className={cn("text-sm text-foreground", labelClassName)}>
+        <span
+          className={cn(
+            "text-sm text-foreground",
+            labelClassName
+          )}
+        >
           {label}
         </span>
       )}

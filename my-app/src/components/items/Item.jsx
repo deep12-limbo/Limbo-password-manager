@@ -9,13 +9,15 @@ import {
     EyeIcon,
     EyeOffIcon,
     OpenTabIcon,
+    ArrowOutwardIcon,
 } from "../ui/icons";
 
 import Modal from "../ui/Modal";
 import ItemForm from "../../pages/ItemForm";
 import Spinner from "../ui/Spinner";
 import Button from "../ui/Button";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import ROUTES from "../../routers/routespath";
 
 
 export function IconButton({
@@ -34,7 +36,7 @@ export function IconButton({
             aria-label={label}
             title={label}
             className={cn(
-                "inline-flex h-8 w-8 cursor-pointer items-center justify-center rounded-full transition-colors",
+                "inline-flex h-6 w-6 cursor-pointer items-center justify-center rounded-full transition-colors",
                 "disabled:cursor-not-allowed disabled:opacity-40",
                 "[&>svg]:h-3.5 [&>svg]:w-3.5",
 
@@ -249,23 +251,12 @@ export default function Item({
     expanded,
     onToggleExpand,
 }) {
+
+
+    console.log("item", item, "hookdata", hookData)
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
-    const expandButton = (
-        <IconButton
-            tone="quiet"
-            label={expanded ? "Hide details" : "Show details"}
-            disabled={disabled}
-            onClick={() => onToggleExpand(item.id)}
-        >
-            <ChevronLeftIcon
-                className={cn(
-                    "transition-transform duration-200",
-                    expanded ? "rotate-90" : "-rotate-90"
-                )}
-            />
-        </IconButton>
-    );
+
 
     const checkbox = (
         <Checkbox
@@ -281,6 +272,23 @@ export default function Item({
         />
     );
 
+
+
+    // modal design controller 
+    const location = useLocation();
+
+    const isGoogleRoute =
+        location.pathname === ROUTES.GOOGLE_ITEMS;
+
+    const modalWidthClass = isGoogleRoute
+        ? "w-[90%] sm:w-[80%] md:w-[65%] lg:w-[50%]"
+        : "w-[90%] sm:w-[90%] md:w-[75%] lg:w-[70%]";
+
+    // const fieldsWrapperClass = isGoogleRoute
+    //     ? "grid grid-cols-1 gap-4 md:grid-cols-2"
+    //     : "grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3";
+
+    // console.log("fieldsWrapperClass", fieldsWrapperClass)
     return (
         <li
         // className={cn(
@@ -297,7 +305,7 @@ export default function Item({
 
             <div
                 className={cn(
-                    "min-w-full min-h-20 py-1 rounded-xs border border-[1px] border-border",
+                    "min-w-full min-h-10 py-1 rounded-xs border border-[1px] border-border",
                     "flex flex-col  justify-center px-3",
                     "transition-colors",
 
@@ -313,18 +321,33 @@ export default function Item({
                         </div>
                     </div>
 
-                    {expandButton}
+                    <IconButton
+                        tone="quiet"
+                        label={expanded ? "Hide details" : "Show details"}
+                        disabled={disabled}
+                        onClick={() => setIsEditModalOpen(prev => !prev)}
+                    >
+                        <ArrowOutwardIcon
+                            // className={cn(
+                            //     "transition-transform duration-200",
+                            //     expanded ? "rotate-90" : "-rotate-90"
+                            // )}
+                            className="text-textdim hover:text-text transition-colors ease-out"
+                        />
+                    </IconButton>
                 </div>
 
-                {expanded && (
-                    <ItemDetails
-                        item={item}
-                        listconfig={listconfig}
-                        onDelete={onDelete}
-                        disabled={disabled}
-                        setIsEditModalOpen={setIsEditModalOpen}
-                    />
-                )}
+                {/* {expanded && (
+
+                    // <ItemDetails
+                    //     item={item}
+                    //     listconfig={listconfig}
+                    //     onDelete={onDelete}
+                    //     disabled={disabled}
+                    //     setIsEditModalOpen={setIsEditModalOpen}
+                    // />
+                )} */}
+
             </div>
 
 
@@ -336,26 +359,36 @@ export default function Item({
             >
                 <Modal.Overlay onClick={() => setIsEditModalOpen(false)} />
 
-                <Modal.Container className="w-[50%] max-w-none max-h-[85vh] overflow-y-auto p-1">
-                    <Modal.Close onClick={() => setIsEditModalOpen(false)} />
+                <Modal.Container
+                    className={`${modalWidthClass} max-w-none max-h-[85vh] overflow-y-auto p-1`}
+                >
+                    <Modal.Title></Modal.Title>
+                    {/* <Modal.Close onClick={() => setIsEditModalOpen(false)} /> */}
 
                     <ItemForm
                         item={item}
                         hookData={hookData}
                         isEditMode={true}
-                        closeModal={() => setIsEditModalOpen(false)}
-                        titleClassName="text-[14px] font-semibold text-start"
+
+
+                        titleClassName="text-[14px] font-semibold "
                         formClassName="gap-3"
                         errorClassName="mt-2 text-sm text-red-500"
 
                         FormclassName="border-0 p-0"
-                        fieldsWrapperClassName="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3"
-
+                        fieldsWrapperClassName=""
                         showSubmit={true}
                         submitLabel="Save"
                         submitVariant="primary"
                         submitSize="md"
                         onlyDirtyFields
+
+                        readOnly={true}
+                        disabled={false}
+
+                        // if inside modal , close the modal using this ...
+                        closeModal={() => setIsEditModalOpen(false)}
+
                     />
                 </Modal.Container>
             </Modal.Root>

@@ -14,8 +14,13 @@ export const googleFormConfig = {
       title: "Edit Google Account",
       description: "Update your Google account details.",
       submitText: "Update Google Account",
-      loadingText: "Updating...",
+      loadingText: "saving",
     },
+    view: {
+      title: "Google Account",
+
+    }
+
 
 
   },
@@ -23,7 +28,7 @@ export const googleFormConfig = {
   fields: [
     {
       fieldKey: "name",
-      label: "Name",
+      label: "Website Name",
       type: "text",
       required: true,
       placeholder: "e.g. Personal Gmail",

@@ -2,10 +2,8 @@
 
 export const authFormConfig = (isLoginFlag) => {
 
-  const config =
-  {
+  const config = {
 
-    // can create different config for login and register forms based on the isLoginFlag
     step: isLoginFlag ? "login" : "register",
     fields: [
       {
@@ -31,16 +29,38 @@ export const authFormConfig = (isLoginFlag) => {
           maxLength: 100,
         },
       },
+
+      /*
+       * Only shown on the register step.
+       * Cross-field check: must match "password".
+       */
+      ...(!isLoginFlag
+        ? [
+          {
+            fieldKey: "confirmPassword",
+            label: "Confirm Password",
+            type: "text",
+            required: true,
+            placeholder: "••••••••",
+
+            validations: {
+              minLength: 6,
+              maxLength: 100,
+              validate: (value, formValues) =>
+                value === formValues.password ||
+                "Passwords do not match",
+            },
+          },
+        ]
+        : []),
     ],
-  }
+  };
 
   return config;
-
-
-
 };
 
 export const authFormDefaultValues = {
   email: "",
   password: "",
+  confirmPassword: "",
 };

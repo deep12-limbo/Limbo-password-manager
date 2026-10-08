@@ -1,3 +1,5 @@
+import { cn } from "../../../utils/cn";
+
 const iconProps = {
     fill: "none",
     stroke: "currentColor",
@@ -26,6 +28,23 @@ function LoginIcon({ size = 20, className = "" }) {
     );
 }
 
+
+
+{/* <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h357l-80 80H200v560h560v-278l80-80v358q0 33-23.5 56.5T760-120H200Zm280-360ZM360-360v-170l367-367q12-12 27-18t30-6q16 0 30.5 6t26.5 18l56 57q11 12 17 26.5t6 29.5q0 15-5.5 29.5T897-728L530-360H360Zm481-424-56-56 56 56ZM440-440h56l232-232-28-28-29-28-231 231v57Zm260-260-29-28 29 28 28 28-28-28Z" /></svg> */ }
+function UpdateIcon({ size = 15, className = "" }) {
+    return (
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width={size}
+            height={size}
+            viewBox="0 -960 960 960"
+            fill="currentColor"
+            className={className}
+        >
+            <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h357l-80 80H200v560h560v-278l80-80v358q0 33-23.5 56.5T760-120H200Zm280-360ZM360-360v-170l367-367q12-12 27-18t30-6q16 0 30.5 6t26.5 18l56 57q11 12 17 26.5t6 29.5q0 15-5.5 29.5T897-728L530-360H360Zm481-424-56-56 56 56ZM440-440h56l232-232-28-28-29-28-231 231v57Zm260-260-29-28 29 28 28 28-28-28Z" />
+        </svg>
+    );
+}
 function LogoutIcon({ size = 15, className = "" }) {
     return (
         <svg width={size} height={size} viewBox="0 0 24 24" className={className} {...iconProps}>
@@ -410,14 +429,14 @@ function MoonIcon() {
     );
 }
 
-function NotesIcon({ size }) {
+function NotesIcon({ size, className }) {
     return (
         <svg
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
             strokeWidth="2"
-            className={`size-${size}`}
+            className={cn(`size-${size} `, className)}
         >
             <path d="M6 3h9l3 3v15H6z" />
             <path d="M14 3v4h4" />
@@ -457,14 +476,14 @@ function SocialMediaIcon({ size }) {
     );
 }
 
-function DocumentsIcon({ size }) {
+function DocumentsIcon({ size, className }) {
     return (
         <svg
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
             strokeWidth="2"
-            className={`size-${size}`}
+            className={cn(`size-${size} `, className)}
         >
             <path d="M6 3h9l3 3v15H6z" />
             <path d="M14 3v4h4" />
@@ -488,14 +507,14 @@ function WifiIcon({ size }) {
         </svg>
     );
 }
-function BankIcon({ size }) {
+function BankIcon({ size, className }) {
     return (
         <svg
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
             strokeWidth="2"
-            className={`size-${size}`}
+            className={cn(`size-${size} `, className)}
         >
             <path d="M3 9h18L12 4 3 9z" />
             <path d="M5 10v8M9 10v8M15 10v8M19 10v8" />
@@ -504,8 +523,77 @@ function BankIcon({ size }) {
     );
 }
 
-export {
 
+function ArrowOutwardIcon({ size = 20, className = "" }) {
+    return (
+        <svg
+            width={size}
+            height={size}
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className={className}
+        >
+            <path d="M7 17L17 7" />
+            <path d="M7 7h10v10" />
+        </svg>
+    );
+} function CollapseSideBarIcon({ size = 20, className = "" }) {
+    return (
+        <svg width={size}
+            height={size} className={className} xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="#e3e3e3"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm280-80h280v-560H480v560Z" /></svg>
+
+    );
+}
+function ResetIcon({ size = 18, className = "" }) {
+    return (
+        <svg
+            width={size}
+            height={size}
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className={className}
+        >
+            <path d="M3 12a9 9 0 1 0 3-6.7" />
+            <path d="M3 4v5h5" />
+        </svg>
+    );
+}
+
+
+function SaveIcon({ size = 18, className = "" }) {
+    return (
+        <svg
+            width={size}
+            height={size}
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className={className}
+        >
+            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z" />
+            <path d="M17 21v-8H7v8" />
+            <path d="M7 3v5h8" />
+        </svg>
+    );
+}
+
+
+export {
+    CollapseSideBarIcon,
+    SaveIcon, ResetIcon,
+
+    ArrowOutwardIcon,
     OpenTabIcon,
 
     GmailIcon,
@@ -562,5 +650,5 @@ export {
 
     GoogleIcon,
     VaultIcon,
-
+    UpdateIcon,
 };

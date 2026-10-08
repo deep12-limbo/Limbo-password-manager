@@ -3,7 +3,7 @@ export const vaultFormConfig = {
 
     ui: {
         create: {
-            title: "Create Vault Item",
+            title: "Create Vault Account",
             description: "Save a new password vault entry.",
             submitText: "Create Vault Item",
             loadingText: "Creating...",
@@ -11,12 +11,14 @@ export const vaultFormConfig = {
 
 
         update: {
-            title: "Edit Vault Item",
+            title: "Edit Vault Account",
             description: "Update your vault item details.",
-            submitText: "Update Vault Item",
-            loadingText: "Updating...",
+            submitText: "Update Vault Account",
+            loadingText: "Saving",
         },
-
+        view: {
+            title: "Vault Account"
+        }
 
     },
 

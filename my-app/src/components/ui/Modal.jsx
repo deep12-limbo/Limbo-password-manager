@@ -3,6 +3,8 @@ import { CloseIcon } from "./icons";
 import Button from "./Button.jsx";
 import { useEffect } from "react";
 
+
+
 export default function Modal({
   open,
   setOpen,
@@ -14,17 +16,7 @@ export default function Modal({
   onCancel,
   children,
 }) {
-  useEffect(() => {
-    if (!open) return;
 
-    const originalOverflow = document.body.style.overflow;
-
-    document.body.style.overflow = "hidden";
-
-    return () => {
-      document.body.style.overflow = originalOverflow;
-    };
-  }, [open]);
   return (
 
 
@@ -38,7 +30,7 @@ export default function Modal({
       <Modal.Container>
         {/* <Modal.Close onClick={onCancel} /> */}
 
-        {title && <Modal.Title>{title}</Modal.Title>}
+        {title && <Modal.Title className="">{title}</Modal.Title>}
 
         {children ? (
           children
@@ -69,7 +61,20 @@ export default function Modal({
 }
 
 function ModalRoot({ open, children, onCancel, className = "" }) {
+  useEffect(() => {
+    if (!open) return;
+
+    const originalOverflow = document.body.style.overflow;
+
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+    };
+  }, [open]);
+
   if (!open) return null;
+
 
   return (
 
@@ -89,8 +94,8 @@ function ModalOverlay({ onClick, className = "" }) {
     <div
       className={cn(
         "absolute inset-0",
-        "bg-black/20 backdrop-blur-[2px]",
-        "dark:bg-black/50 dark:backdrop-blur-[2px]",
+        "bg-black/30 backdrop-blur-[8px]",
+        "dark:bg-black/60 dark:backdrop-blur-[8px]",
         className
       )}
       onClick={onClick}
@@ -106,8 +111,9 @@ function ModalContainer({ children, className = "", ...rest }) {
       className={cn(
         "glass-card",
         "relative z-10 overflow-y-auto ",
-        "rounded-md border border-border bg-background p-3 shadow-xl w-[75%] ",
-
+        "rounded-md border border-border bg-background  shadow-xl ",
+        className,
+        "p-[1rem]"
         // "max-w-[100vw]  max-h-[80vh]  md:max-h-[70vh]"
       )
 
@@ -118,8 +124,10 @@ function ModalContainer({ children, className = "", ...rest }) {
     </div >
   );
 }
-function ModalClose({ onClick, className = "" }) {
-  // return
+
+
+export function ModalClose({ onClick, className = "" }) {
+  return
   if (!onClick) return null;
 
   return (
@@ -128,14 +136,14 @@ function ModalClose({ onClick, className = "" }) {
       onClick={onClick}
       aria-label="Close"
       className={cn(
-        "absolute right-4 top-4 inline-flex h-8 w-8 items-center justify-center rounded-full",
+        "absolute right-4 top-4 inline-flex h-5 w-5 items-center justify-center rounded-full",
         "text-foreground/50 transition-colors hover:bg-surface-hover hover:text-foreground",
         "focus:outline-none focus:ring-2 focus:ring-primary/40",
         "[&>svg]:h-4 [&>svg]:w-4",
         className
       )}
     >
-      <CloseIcon />
+      <CloseIcon size={14} />
     </button>
   );
 }

@@ -8,6 +8,18 @@ import ROUTES from "../../routers/routespath";
 import BgVid from "../../../public/bg-vid.mp4"
 
 
+
+const TextBox = ({ children, onClick }) => {
+  return (
+    <span
+      onClick={onClick}
+      className="ml-1 text-textdim transition-colors duration-200 hover:text-text hover:underline cursor-pointer"
+    >
+      {children}
+    </span>
+  );
+}
+
 export default function AuthPage() {
 
   const navigate = useNavigate();
@@ -68,8 +80,12 @@ export default function AuthPage() {
     : "register-form";
 
   const switchAuthMode = () => {
+    http.setError("");
     navigate(isLoginFlag ? "/register" : login);
+
   };
+
+
 
   return (
     // <div className="login flex min-h-screen w-full items-center justify-center px-4 py-8 sm:px-6 lg:px-8 relative">
@@ -114,19 +130,24 @@ export default function AuthPage() {
       <div
         className="
         login-container 
-    z-[11]
-    rounded-lg
-    border border-border
-    px-4 py-5
-    sm:px-6 sm:py-6
-    lg:px-8 lg:py-8
-    lg:w-[22rem]
+        z-[11]
+        rounded-lg
+        border border-border
+        p-8
+        w-[25rem]
+        mx-4
+        
+        sm:p-6
+        sm:w-[22rem]
+        mx-0
+        
+  
   "
       >
         {/* Heading */}
         <div className="mb-4 sm:mb-5">
           <h1 className="text-2xl font-bold ">
-            {isLoginFlag ? "Welcome back" : "Create your account"}
+            {isLoginFlag ? "Welcome back" : "Create  account"}
           </h1>
 
           <p className="mt-1 text-xs text-foreground/60 ">
@@ -152,17 +173,23 @@ export default function AuthPage() {
         // submitLabel={isEditMode ? "Update" : "Save"}
         />
 
+
+
+
+        {/*  bg-gradient-to-r from-[#0d143d] via-[#161e55] to-[#0d143d]
+            hover:from-[#121a4a] hover:via-[#1d286b] hover:to-[#121a4a] */}
+
         {/* Submit */}
         <Button.Root
           type="submit"
           form={formId}
           disabled={http.isLoading}
+          // variant=""
           className="
-  mt-7 w-full h-7 p-2 border-0
-  bg-gradient-to-r from-[#0d143d] via-[#161e55] to-[#0d143d]
-  hover:from-[#121a4a] hover:via-[#1d286b] hover:to-[#121a4a]
-  transition-all duration-200
-"
+            mt-7 w-[80%]  h-9 p-2 border-1 border rounded-3xl shadow-xl
+            bg-[#161e55] hover:bg-[#1d286b]
+            transition-all easy-out duration-200           
+          "
           isLoading={http.isLoading}
         >
           <Button.Text className="text-[12px] font-semibold">
@@ -187,16 +214,26 @@ export default function AuthPage() {
         <Button.Root
           type="button"
           className="mt-3 w-full text-sm hover:bg-transparent "
-          onClick={switchAuthMode}
+
           variant="ghost"
           disabled={http.isLoading}
         // isLoading={http.isLoading}
 
+
+
+        //         ? {"Don't have an account?"} {<span>Create one</span> }
+        // : "Already have an account?"}
+
         >
-          <Button.Text className="text-[12px] hover:underline text-text-dim hover:text-text">
-            {isLoginFlag
-              ? "Don't have an account? Create one"
-              : "Already have an account?"}
+          <Button.Text className="text-[12px]  ">
+            {
+              isLoginFlag ? (<div>
+                <span>Don't have an account?</span><TextBox onClick={() => switchAuthMode(http)}>Create one</TextBox>
+              </div>) : (<div>
+                <span>Already have an account?</span> <TextBox onClick={() => switchAuthMode(http)}>Login</TextBox>
+              </div>)
+            }
+
           </Button.Text>
         </Button.Root>
       </div>

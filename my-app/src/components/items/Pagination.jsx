@@ -47,7 +47,7 @@ export default function Pagination({
     const pages = getPages();
 
     return (
-        <div className="flex my-10 items-center justify-center gap-2">
+        <div className="flex  items-center justify-center gap-2">
             <Button.Root
                 variant="outline"
                 size="sm"

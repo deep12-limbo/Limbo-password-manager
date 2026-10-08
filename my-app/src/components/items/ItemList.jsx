@@ -138,30 +138,20 @@ export default function ItemList({
                 )}
 
                 {hasItems && (
-                    <ul className="w-full overflow-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-5">
-
+                    <ul className="flex h-[60vh] w-full flex-col gap-5 overflow-y-auto">
                         {items.map((item, i) => (
                             <Item
                                 key={item.id}
                                 item={item}
-                                index={
-                                    (page - 1) * limit + i + 1
-                                }
-                                selected={selectedIds.includes(
-                                    item.id
-                                )}
+                                index={(page - 1) * limit + i + 1}
+                                selected={selectedIds.includes(item.id)}
                                 onSelect={onSelect}
                                 onDelete={onDelete}
                                 disabled={disabled}
                                 listconfig={listconfig}
-                                expanded={
-                                    expandedItemId === item.id
-                                }
-                                onToggleExpand={
-                                    handleToggleExpand
-                                }
+                                expanded={expandedItemId === item.id}
+                                onToggleExpand={handleToggleExpand}
                                 hookData={hookData}
-
                             />
                         ))}
                     </ul>

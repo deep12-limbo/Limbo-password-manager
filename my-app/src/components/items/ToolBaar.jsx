@@ -8,6 +8,8 @@ import Modal from "../ui/Modal";
 import ItemForm from "../../pages/ItemForm";
 import { cn } from "../../utils/cn";
 import { CloseIcon, CreateIcon, SearchIcon } from "../ui/icons";
+import { useLocation } from "react-router-dom";
+import ROUTES from "../../routers/routespath";
 
 export default function Toolbar({
     search,
@@ -75,25 +77,33 @@ export default function Toolbar({
     // lg:w-[85%]
     // xl:w-[70%]
 
+
+    const location = useLocation();
+
+    const isGoogleRoute =
+        location.pathname === ROUTES.GOOGLE_ITEMS;
+
+    const modalWidthClass = isGoogleRoute
+        ? "w-[90%] sm:w-[80%] md:w-[65%] lg:w-[50%]"
+        : "w-[90%] sm:w-[90%] md:w-[75%] lg:w-[70%]";
+
     return (
-        <div className="flex w-full min-w-0 items-center justify-between gap-2">
+        <div className="flex w-full min-w-0 items-center justify-between gap-2 max-[419px]:flex-col max-[419px]:items-stretch">
             {/* -----------------------------------------
                 Search
                 ----------------------------------------- */}
             <form
-                className="flex w-[50%]  items-center gap-2"
+                className="flex min-w-0 flex-1 items-center gap-2 max-[419px]:w-full"
                 onSubmit={handleSubmit(onSubmit)}
             >
-                {/* <div className="relative h-4 min-w-0 flex-1 sm:h-9 sm:w-56 sm:flex-none md:w-64"> */}
-
-                <div className="relative w-full ">
+                <div className="relative w-full min-w-0">
                     <FormField.Input
                         name="search"
                         register={register}
                         placeholder="Search item"
                         disabled={disabled}
                         className={cn(
-                            "h-7 min-w-[230px] text-[12px] ",
+                            "h-7 w-full min-w-0 text-[12px]",
                             searchValue && "pr-9"
                         )}
                     />
@@ -118,57 +128,38 @@ export default function Toolbar({
                         >
                             <CloseIcon size={14} />
                         </button>
-                    ) :
-
-                        (
-                            <button
-                                type="button"
-                                onClick={cancelSearch}
-                                disabled={disabled}
-                                className={cn(
-                                    "absolute right-1.5 top-1/2",
-                                    "-translate-y-1/2",
-                                    "flex h-5 w-5 items-center justify-center",
-                                    "rounded-full text-foreground/50",
-                                    "transition-colors duration-150",
-                                    // "hover:bg-foreground/10 hover:text-foreground",
-                                    "disabled:pointer-events-none disabled:opacity-50",
-                                    // "cursor-pointer"
-                                )}
-                                aria-label="Clear search"
-                                title="Clear search"
-                            >
-                                <SearchIcon size={14} />
-                            </button>
-                        )}
+                    ) : (
+                        <button
+                            type="button"
+                            disabled={disabled}
+                            className={cn(
+                                "absolute right-1.5 top-1/2",
+                                "-translate-y-1/2",
+                                "flex h-5 w-5 items-center justify-center",
+                                "rounded-full text-foreground/50",
+                                "disabled:pointer-events-none disabled:opacity-50"
+                            )}
+                            aria-label="Search"
+                            title="Search"
+                        >
+                            <SearchIcon size={14} />
+                        </button>
+                    )}
                 </div>
-
-                {/* </div> */}
-
-                {/* <Button.Root
-                    className="h-8 shrink-0 px-3 py-0 text-xs sm:h-9 sm:px-4 sm:text-sm md:h-10"
-                    variant="outline"
-                    disabled={disabled}
-                    type="submit"
-                >
-                    <Button.Text>
-                        Search
-                    </Button.Text>
-                </Button.Root> */}
             </form>
 
-            {/* -----------------------------------------
-                Create button
-                ----------------------------------------- */}
+            {/* Create */}
             <Button.Root
                 type="button"
                 variant="primary"
                 onClick={createItemHandler}
                 disabled={disabled}
                 className={cn(
-                    "h-7 shrink-0 gap-1.5 px-3 py-0 ",
+                    "h-7 shrink-0 gap-1.5 px-3 py-0",
                     "bg-neutral-900 dark:bg-neutral-50",
-                    "text-[12px] text-white dark:text-black   whitespace-nowrap"
+                    "text-[12px] text-white dark:text-black",
+                    "whitespace-nowrap",
+                    "max-[419px]:w-full"
                 )}
             >
                 <Button.Icon>
@@ -193,7 +184,10 @@ export default function Toolbar({
                     }
                 />
 
-                <Modal.Container className="w-[calc(100%-1.5rem)] max-w-2xl max-h-[85vh] overflow-y-auto sm:w-full sm:max-h-[80vh]">
+                <Modal.Container
+                    className={`${modalWidthClass} max-w-none max-h-[85vh] overflow-y-auto p-1`}
+
+                >
                     <Modal.Close
                         onClick={() =>
                             setIsCreateModalOpen(false)
@@ -215,7 +209,7 @@ export default function Toolbar({
                     />
                 </Modal.Container>
             </Modal.Root>
-        </div>
+        </div >
     );
 }
 

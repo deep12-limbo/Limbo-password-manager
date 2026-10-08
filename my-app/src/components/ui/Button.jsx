@@ -8,6 +8,7 @@ const variants = {
   via-primary/70
   to-primary
   text-primary-foreground
+  
   border border-primary
   hover:opacity-90
   focus:ring-primary
@@ -25,7 +26,7 @@ const variants = {
     bg-transparent
     text-foreground
     border border-transparent
-    hover:bg-surface-hover
+    hover:c
     focus:ring-primary
   `,
 
