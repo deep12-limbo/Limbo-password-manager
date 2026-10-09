@@ -1,15 +1,11 @@
-
 import { useForm } from "react-hook-form";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import Button from "../ui/Button";
 import FormField from "../ui/form/FormField";
-import Modal from "../ui/Modal";
-import ItemForm from "../../pages/ItemForm";
 import { cn } from "../../utils/cn";
-import { CloseIcon, CreateIcon, SearchIcon } from "../ui/icons";
-import { useLocation } from "react-router-dom";
-import ROUTES from "../../routers/routespath";
+import { CloseIcon, SearchIcon } from "../ui/icons";
+import CreateItemButton from "./CreateItemButton";
 
 export default function Toolbar({
     search,
@@ -25,9 +21,6 @@ export default function Toolbar({
      */
     hookData,
 }) {
-    const [isCreateModalOpen, setIsCreateModalOpen] =
-        useState(false);
-
     /*
      * Search form.
      */
@@ -53,13 +46,6 @@ export default function Toolbar({
     }, [search, setValue]);
 
     /*
-     * Open create modal.
-     */
-    const createItemHandler = () => {
-        setIsCreateModalOpen(true);
-    };
-
-    /*
      * Search submit.
      */
     const onSubmit = (data) => {
@@ -74,27 +60,13 @@ export default function Toolbar({
         onSearchChange("");
     };
 
-    // lg:w-[85%]
-    // xl:w-[70%]
-
-
-    const location = useLocation();
-
-    const isGoogleRoute =
-        location.pathname === ROUTES.GOOGLE_ITEMS;
-
-    const modalWidthClass = isGoogleRoute
-        ? "w-[90%] sm:w-[80%] md:w-[65%] lg:w-[50%]"
-        : "w-[90%] sm:w-[90%] md:w-[75%] lg:w-[70%]";
-
     return (
         <div className="flex w-full min-w-0 items-center justify-between gap-2 max-[419px]:flex-col max-[419px]:items-stretch">
             {/* -----------------------------------------
                 Search
                 ----------------------------------------- */}
             <form
-                className="flex min-w-0 flex-1 items-center gap-2 max-[419px]:w-full"
-                onSubmit={handleSubmit(onSubmit)}
+                className="flex w-full max-w-[300px] min-w-0 flex-1 items-center gap-2 max-[419px]:max-w-none" onSubmit={handleSubmit(onSubmit)}
             >
                 <div className="relative w-full min-w-0">
                     <FormField.Input
@@ -103,8 +75,8 @@ export default function Toolbar({
                         placeholder="Search item"
                         disabled={disabled}
                         className={cn(
-                            "h-7 w-full min-w-0 text-[12px]",
-                            searchValue && "pr-9"
+                            "h-7 w-full min-w-0 text-[12px] bg-sidebar-item-hover",
+                            searchValue && "pr-9 "
                         )}
                     />
 
@@ -148,68 +120,12 @@ export default function Toolbar({
                 </div>
             </form>
 
-            {/* Create */}
-            <Button.Root
-                type="button"
-                variant="primary"
-                onClick={createItemHandler}
+            <CreateItemButton
+                itemType={itemType}
                 disabled={disabled}
-                className={cn(
-                    "h-7 shrink-0 gap-1.5 px-3 py-0",
-                    "bg-neutral-900 dark:bg-neutral-50",
-                    "text-[12px] text-white dark:text-black",
-                    "whitespace-nowrap",
-                    "max-[419px]:w-full"
-                )}
-            >
-                <Button.Icon>
-                    <CreateIcon size={14} />
-                </Button.Icon>
-
-                <Button.Text>
-                    Create {itemType} Item
-                </Button.Text>
-            </Button.Root>
-
-            {/* -----------------------------------------
-                Create Modal
-                ----------------------------------------- */}
-            <Modal.Root
-                open={isCreateModalOpen}
-                setOpen={setIsCreateModalOpen}
-            >
-                <Modal.Overlay
-                    onClick={() =>
-                        setIsCreateModalOpen(false)
-                    }
-                />
-
-                <Modal.Container
-                    className={`${modalWidthClass} max-w-none max-h-[85vh] overflow-y-auto p-1`}
-
-                >
-                    <Modal.Close
-                        onClick={() =>
-                            setIsCreateModalOpen(false)
-                        }
-                    />
-
-                    <ItemForm
-                        /*
-                         * Pass the COMPLETE hookData.
-                         *
-                         * ItemForm can now take the create
-                         * portion from it.
-                         */
-                        hookData={hookData}
-                        isEditMode={false}
-                        closeModal={() =>
-                            setIsCreateModalOpen(false)
-                        }
-                    />
-                </Modal.Container>
-            </Modal.Root>
-        </div >
+                hookData={hookData}
+                className="bg-neutral-900 dark:bg-neutral-50"
+            />
+        </div>
     );
 }
-

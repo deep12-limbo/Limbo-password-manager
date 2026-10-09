@@ -1,75 +1,100 @@
+import { cn } from "../../utils/cn";
 import Button from "../ui/Button";
+
+
+
+
+function PaginationButton({
+    children,
+    active = false,
+    disabled = false,
+    onClick,
+    className = "",
+    textClassName = "",
+    type = "button",
+}) {
+    const baseClasses =
+        "group transition-colors focus:ring-gray-300";
+
+    const inactiveClasses =
+        "bg-transparent text-text hover:text-heading border border-gray-300 hover:bg-sidebar-item-hover dark:border-gray-700 dark:focus:ring-gray-600";
+
+    const activeClasses =
+        "bg-gray-900 text-white border border-gray-900 dark:bg-white dark:text-gray-900 dark:border-white";
+
+    return (
+        <Button.Root
+            type={type}
+            variant="none"
+            size="sm"
+            disabled={disabled}
+            onClick={onClick}
+            className={cn(
+                baseClasses,
+                active ? activeClasses : inactiveClasses,
+                className
+            )}
+        >
+            <Button.Text
+                className={cn(
+                    "transition-colors",
+                    active
+                        ? "text-white dark:text-gray-900 group-hover:text-white dark:group-hover:text-gray-900"
+                        : "text-text-dim group-hover:text-text-heading",
+                    textClassName
+                )}
+            >
+                {children}
+            </Button.Text>
+        </Button.Root>
+    );
+}
+
 
 export default function Pagination({
     page,
-    totalPages,
     onPageChange,
     disabled = false,
 }) {
 
-    //  if (!totalPages || totalPages <= 1) {
-    //         return null;
-    //     }
+    const totalPages = 9;
+
+
 
     const getPages = () => {
-        const pages = [];
-
-        if (totalPages <= 7) {
-            for (let i = 1; i <= totalPages; i++) {
-                pages.push(i);
-            }
-
-            return pages;
+        if (page <= 1) {
+            return [1, 2, 3];
         }
 
-        pages.push(1);
-
-        if (page > 4) {
-            pages.push("...");
+        if (page >= totalPages) {
+            return [totalPages - 2, totalPages - 1, totalPages];
         }
 
-        const start = Math.max(2, page - 1);
-        const end = Math.min(totalPages - 1, page + 1);
-
-        for (let i = start; i <= end; i++) {
-            pages.push(i);
-        }
-
-        if (page < totalPages - 3) {
-            pages.push("...");
-        }
-
-        pages.push(totalPages);
-
-        return pages;
+        return [page - 1, page, page + 1];
     };
-
-    const pages = getPages();
+    const pages = getPages()
 
     return (
-        <div className="flex  items-center justify-center gap-2">
-            <Button.Root
-                variant="outline"
-                size="sm"
+        <div className="flex items-center justify-center gap-2">
+            <PaginationButton
+                className="w-20"
                 disabled={disabled || page === 1}
                 onClick={() => onPageChange(page - 1)}
-            // isLoading={http.isLoading}
-
             >
-                <Button.Text className="text-text">
-                    Previous
-                </Button.Text>
-            </Button.Root>
+                Previous
+            </PaginationButton>
 
-            <div className="flex items-center gap-1 mx-5">
+            <div className="mx-5 flex items-center gap-2">
                 {pages.map((item, index) => {
                     if (item === "...") {
                         return (
                             <span
                                 key={`ellipsis-${index}`}
-                                className="px-2"
+                                className={cn(
+                                    "inline-flex h-[29.34px] w-[31.99px] shrink-0 cursor-default items-center justify-center rounded-sm border border-gray-300 px-0 py-0 text-xs text-text-dim transition-colors dark:border-gray-700 lg:h-[32.84px] lg:w-[35.80px]"
+                                )}
                             >
-                                ...
+                                ···
                             </span>
                         );
                     }
@@ -77,33 +102,25 @@ export default function Pagination({
                     const isActive = item === page;
 
                     return (
-                        <Button.Root
-                            key={item}
-                            size="sm"
-                            variant={isActive ? "primary" : "outline"}
+                        <PaginationButton
+                            key={index}
+                            active={isActive}
                             disabled={disabled}
                             onClick={() => onPageChange(item)}
                         >
-                            <Button.Text>
-                                {item}
-                            </Button.Text>
-                        </Button.Root>
+                            {item}
+                        </PaginationButton>
                     );
                 })}
             </div>
 
-            <Button.Root
-                variant="outline"
-                size="sm"
+            <PaginationButton
+                className="w-20"
                 disabled={disabled || page === totalPages}
                 onClick={() => onPageChange(page + 1)}
             >
-                <Button.Text className="text-text">
-                    Next
-                </Button.Text>
-            </Button.Root>
+                Next
+            </PaginationButton>
         </div>
     );
-
-
 }

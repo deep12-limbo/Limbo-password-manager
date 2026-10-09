@@ -7,10 +7,12 @@ import Checkbox from "../ui/form/Checkbox";
 import {
     CloseIcon,
     DeleteIcon,
+    LockKeyholeIcon,
 } from "../ui/icons";
 
 import Spinner from "../ui/Spinner";
 import Button from "../ui/Button";
+import CreateItemButton from "./CreateItemButton";
 
 
 export default function ItemList({
@@ -44,6 +46,8 @@ export default function ItemList({
      * complete hook data received from ItemsManager.
      */
     hookData,
+
+    itemType,
 }) {
 
     const [
@@ -79,7 +83,7 @@ export default function ItemList({
 
 
     return (
-        <div className=" mt-2 flex w-full flex-col   ">
+        <div className="  flex w-full flex-col   ">
 
 
             {/* -----------------------------------------
@@ -124,38 +128,66 @@ export default function ItemList({
 
             </div>
 
-
             {/* -----------------------------------------
                 List
                 ----------------------------------------- */}
-            <div className="relative ">
-                {showEmpty && (
-                    <div className="flex w-full items-center justify-center px-4 py-12 text-center">
-                        <p className="text-xs text-foreground/60 sm:text-sm">
-                            {emptyMessage}
-                        </p>
-                    </div>
-                )}
+            <div className="relative">
+                <div className={cn("w-full h-[45vh] overflow-y-scroll overflow-x-hidden")}>
 
-                {hasItems && (
-                    <ul className="flex h-[60vh] w-full flex-col gap-5 overflow-y-auto">
-                        {items.map((item, i) => (
-                            <Item
-                                key={item.id}
-                                item={item}
-                                index={(page - 1) * limit + i + 1}
-                                selected={selectedIds.includes(item.id)}
-                                onSelect={onSelect}
-                                onDelete={onDelete}
-                                disabled={disabled}
-                                listconfig={listconfig}
-                                expanded={expandedItemId === item.id}
-                                onToggleExpand={handleToggleExpand}
-                                hookData={hookData}
+
+
+                    {showEmpty && (
+                        <div className="flex h-full w-full flex-col items-center justify-center gap-3 px-4  text-center border-border border-1 rounded-xl bg-surface-background/50">
+                            <LockKeyholeIcon
+                                size={36}
+                                className="text-text-dim"
                             />
-                        ))}
-                    </ul>
-                )}
+
+                            <div className="flex flex-col space-y-[1rem]">
+                                <h3 className="text-sm font-medium text-heading sm:text-base">
+                                    No items yet
+                                </h3>
+
+                                <p className="text-xs text-foreground/60 sm:text-sm mb-8">
+                                    Your saved items will appear here. Create your first item to get started.
+                                </p>
+
+                                <CreateItemButton itemType={itemType}
+                                    disabled={disabled}
+                                    hookData={hookData}
+                                    className="rounded-full text-white"
+                                    buttonVariant="outline"
+                                    buttonClassName="text-text text-[12px] font-md"
+                                />
+
+                            </div>
+                        </div>
+                    )}
+
+
+
+
+                    {hasItems && (
+                        <ul className="  w-full grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 gap-5   ">
+                            {items.map((item, i) => (
+                                <Item
+                                    key={item.id}
+                                    item={item}
+                                    index={(page - 1) * limit + i + 1}
+                                    selected={selectedIds.includes(item.id)}
+                                    onSelect={onSelect}
+                                    onDelete={onDelete}
+                                    disabled={disabled}
+                                    listconfig={listconfig}
+                                    expanded={expandedItemId === item.id}
+                                    onToggleExpand={handleToggleExpand}
+                                    hookData={hookData}
+                                />
+                            ))}
+                        </ul>
+                    )}
+                </div>
+
             </div>
 
         </div>

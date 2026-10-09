@@ -17,6 +17,19 @@ function HomeIcon({ size = 20, className = "" }) {
         </svg>
     );
 }
+function DockToRightIcon({ size = 20, className = "" }) {
+    return (
+
+        <svg width={size} height={size} className={cn("", className)} xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="#e3e3e3"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm120-80v-560H200v560h120Zm80 0h360v-560H400v560Zm-80 0H200h120Z" /></svg>
+
+    );
+}
+
+function DockToLeftIcon({ size = 20, className = "" }) {
+    return (
+
+        <svg width={size} height={size} className={cn("", className)} xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="#e3e3e3"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm440-80h120v-560H640v560Zm-80 0v-560H200v560h360Zm80 0h120-120Z" /></svg>);
+}
 
 function LoginIcon({ size = 20, className = "" }) {
     return (
@@ -27,6 +40,25 @@ function LoginIcon({ size = 20, className = "" }) {
         </svg>
     );
 }
+
+
+
+function LockKeyholeIcon({ size = 20, className = "" }) {
+    return (
+        <svg
+            width={size}
+            height={size}
+            className={cn("", className)}
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 -960 960 960"
+            fill="currentColor"
+        >
+            <path d="M240-160q-33 0-56.5-23.5T160-240v-320q0-33 23.5-56.5T240-640h40v-80q0-83 58.5-141.5T480-920q83 0 141.5 58.5T680-720v80h40q33 0 56.5 23.5T800-560v320q0 33-23.5 56.5T720-160H240Zm0-80h480v-320H240v320Zm240-80q33 0 56.5-23.5T560-400q0-33-23.5-56.5T480-480q-33 0-56.5 23.5T400-400q0 33 23.5 56.5T480-320ZM360-640h240v-80q0-50-35-85t-85-35q-50 0-85 35t-35 85v80Zm-120 400v-320 320Z" />
+        </svg>
+    );
+}
+
+
 
 
 
@@ -651,4 +683,9 @@ export {
     GoogleIcon,
     VaultIcon,
     UpdateIcon,
+
+    DockToRightIcon,
+    DockToLeftIcon,
+
+    LockKeyholeIcon,
 };

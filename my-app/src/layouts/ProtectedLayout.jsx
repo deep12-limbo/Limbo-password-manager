@@ -61,16 +61,19 @@ export default function Layout() {
                 <aside
                     className={cn(
                         "fixed inset-y-0 left-0 z-50",
-                        "w-54",
+                        "w-54", "sidebar",
                         "transition-transform duration-300 ease-in-out"
                     )}
                 >
-                    <Sidebar
-                        isCollapsed={false}
-                        setIsCollapsed={setIsCollapsed}
-                        isDrawer={true}
-                        setIsDrawerOpen={setIsDrawerOpen}
-                    />
+                    <div className="w-full h-full bg-background">
+
+                        <Sidebar
+                            isCollapsed={false}
+                            setIsCollapsed={setIsCollapsed}
+                            isDrawer={true}
+                            setIsDrawerOpen={setIsDrawerOpen}
+                        />
+                    </div>
                 </aside>
             )}
 
@@ -95,9 +98,9 @@ export default function Layout() {
                     <button
                         type="button"
                         onClick={() => setIsDrawerOpen(true)}
-                        className="mt-3 flex h-8 w-8 items-center justify-center"
+                        className="mt-3 flex h-8 w-8 items-center justify-center cursor-pointer"
                     >
-                        <span className="flex flex-col gap-[3px]">
+                        <span className="flex flex-col gap-[6px]">
                             <span className="h-[2px] w-5 rounded-full bg-foreground" />
                             <span className="h-[2px] w-3.5 rounded-full bg-foreground" />
                         </span>

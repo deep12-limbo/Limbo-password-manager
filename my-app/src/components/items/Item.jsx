@@ -19,7 +19,6 @@ import Button from "../ui/Button";
 import { Link, useLocation } from "react-router-dom";
 import ROUTES from "../../routers/routespath";
 
-
 export function IconButton({
     tone = "accent",
     onClick,
@@ -27,6 +26,7 @@ export function IconButton({
     label,
     children,
     isLoading,
+    className = "",
 }) {
     return (
         <button
@@ -47,14 +47,15 @@ export function IconButton({
                 "text-red-400 hover:bg-red-100",
 
                 tone === "quiet" &&
-                "text-foreground dark:hover:bg-neutral-950 hover:text-foreground"
+                "text-foreground dark:hover:bg-neutral-950 hover:text-foreground",
+                tone === "none" && "",
+                className
             )}
         >
             {isLoading ? <Spinner /> : children}
         </button>
     );
 }
-
 
 function ItemDetails({
     item,
@@ -98,7 +99,7 @@ function ItemDetails({
                                     <div className="flex flex-1 items-center justify-between gap-2 rounded-xs  p-1">
                                         <span
                                             className={cn(
-                                                "truncate text-xs font-medium w-[120px]",
+                                                "trucate text-xs font-medium w-[120px]",
                                                 isEmpty ? "text-foreground/30" : "text-foreground/90"
                                             )}
                                         >
@@ -290,7 +291,7 @@ export default function Item({
 
     // console.log("fieldsWrapperClass", fieldsWrapperClass)
     return (
-        <li
+        <li className="px-1"
         // className={cn(
         //     "w-full overflow-hidden  bg-surface shadow-md dark:shadow-[0_4px_12px_rgba(0,0,0,0.2)] mb-4 md:mb-0",
         //     selected &&
@@ -303,12 +304,22 @@ export default function Item({
         // )}
         >
 
+
+            {/* className={cn(
+    "transition-all duration-200 ease-out",
+    "bg-sidebar-item-hover/80 hover:bg-sidebar-item-hover",
+    "text-textdim hover:text-heading",
+    "border border-transparent hover:border-border",
+    className
+)} */}
+
             <div
                 className={cn(
-                    "min-w-full min-h-10 py-1 rounded-xs border border-[1px] border-border",
+                    "min-w-full min-h-10 py-1 rounded-full m-1 ",
                     "flex flex-col  justify-center px-3",
-                    "transition-colors",
-
+                    "bg-sidebar-item-hover",
+                    "hover:border hover:border-[1px]  border-border",
+                    "",
                 )}
             >
                 <div className="flex justify-between w-full items-center">
@@ -316,7 +327,7 @@ export default function Item({
                     <div className="flex gap-x-4 h-full w-[30%] items-center justify-start">
                         {checkbox}
 
-                        <div className="text-[15px] font-medium text-foreground/80 truncate">
+                        <div className="text-[15px] font-medium text-foreground/80 ">
                             {item.name[0].toUpperCase() + item.name.slice(1)}
                         </div>
                     </div>

@@ -13,7 +13,7 @@ const TextBox = ({ children, onClick }) => {
   return (
     <span
       onClick={onClick}
-      className="ml-1 text-textdim transition-colors duration-200 hover:text-text hover:underline cursor-pointer"
+      className="ml-1 text-text transition-colors duration-200 hover:text-text hover:underline cursor-pointer"
     >
       {children}
     </span>
@@ -187,7 +187,7 @@ export default function AuthPage() {
           // variant=""
           className="
             mt-7 w-[80%]  h-9 p-2 border-1 border rounded-3xl shadow-xl
-            bg-[#161e55] hover:bg-[#1d286b]
+            bg-[#1d286b] hover:bg-[#222F7A]
             transition-all easy-out duration-200           
           "
           isLoading={http.isLoading}
@@ -225,15 +225,32 @@ export default function AuthPage() {
         // : "Already have an account?"}
 
         >
-          <Button.Text className="text-[12px]  ">
-            {
-              isLoginFlag ? (<div>
-                <span>Don't have an account?</span><TextBox onClick={() => switchAuthMode(http)}>Create one</TextBox>
-              </div>) : (<div>
-                <span>Already have an account?</span> <TextBox onClick={() => switchAuthMode(http)}>Login</TextBox>
-              </div>)
-            }
-
+          <Button.Text className="text-[12px]">
+            {isLoginFlag ? (
+              <div>
+                <span className="text-foreground/80">
+                  Don't have an account?
+                </span>{" "}
+                <TextBox
+                  className="text-foreground underline"
+                  onClick={() => switchAuthMode(http)}
+                >
+                  Create one
+                </TextBox>
+              </div>
+            ) : (
+              <div>
+                <span className="text-foreground/80">
+                  Already have an account?
+                </span>{" "}
+                <TextBox
+                  className="text-foreground underline"
+                  onClick={() => switchAuthMode(http)}
+                >
+                  Login
+                </TextBox>
+              </div>
+            )}
           </Button.Text>
         </Button.Root>
       </div>

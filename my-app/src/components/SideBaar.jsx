@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-
+import { IconButton } from "./items/Item";
 import { ThemeContext } from "../context/themeContext";
 import ROUTES from "../routers/routespath";
 import Button from "./ui/Button";
@@ -16,10 +16,16 @@ import {
     NotesIcon,
     SunIcon,
     VaultIcon,
+    DockToRightIcon,
+    DockToLeftIcon,
+    ArrowOutwardIcon
 } from "./ui/icons";
 import UserContext from "../context/user/usercontext";
 import withSidebarButton from "./HOC/WithSideBarButton";
+import withSidebarIconButton from "./HOC/withSidebarIconButton";
 
+
+const SidebarIconButton = withSidebarIconButton(IconButton);
 const SidebarButton = withSidebarButton(Button);
 
 export default function Sidebar({
@@ -87,31 +93,17 @@ export default function Sidebar({
                 )}
             >
                 {isCollapsed ? (
-                    /*
-                     * Collapsed: show the "P" logo by default,
-                     * swap to the expand button on hover (the
-                     * hover state is tracked on the whole sidebar
-                     * via showCollapseButton above).
-                     */
                     showCollapseButton ? (
-                        <button
-                            type="button"
-                            onClick={() => setIsCollapsed(false)}
-                            className="
-                                flex size-8 items-center justify-center
-                                rounded-lg bg-surface-hover text-text
-                            "
-                            aria-label="Expand sidebar"
-                        >
-                            <CollapseSideBarIcon size={14} />
-                        </button>
+                        <SidebarIconButton onClick={() => setIsCollapsed(false)}>
+                            <DockToLeftIcon className="text-textdim hover:text-text transition-colors ease-out" size={16} />
+                        </SidebarIconButton>
                     ) : (
                         <div
                             className="
-                                flex size-8 items-center justify-center
-                                rounded-lg bg-electric-violet-400
-                                text-sm font-bold text-white
-                            "
+                flex size-8 items-center justify-center
+                rounded-lg bg-primary shadow-lg
+                text-sm font-bold text-white
+            "
                         >
                             P
                         </div>
@@ -123,31 +115,25 @@ export default function Sidebar({
                         </span>
 
                         {isDrawer ? (
-                            <button
-                                type="button"
+                            <SidebarIconButton
                                 onClick={() => setIsDrawerOpen?.(false)}
-                                className="
-                                    flex size-7 items-center justify-center
-                                    rounded-md text-text
-                                    hover:bg-surface-hover hover:text-text-h
-                                "
                                 aria-label="Close sidebar"
                             >
-                                <CloseIcon size={14} />
-                            </button>
+                                <CloseIcon
+                                    size={16}
+                                    className="text-textdim transition-colors ease-out hover:text-text"
+                                />
+                            </SidebarIconButton>
                         ) : (
-                            <button
-                                type="button"
+                            <SidebarIconButton
                                 onClick={() => setIsCollapsed(true)}
-                                className="
-                                    flex size-7 items-center justify-center
-                                    rounded-md text-text
-                                    hover:bg-surface-hover hover:text-text-h
-                                "
                                 aria-label="Collapse sidebar"
                             >
-                                <CollapseSideBarIcon size={14} />
-                            </button>
+                                <DockToRightIcon
+                                    size={16}
+                                    className="text-textdim transition-colors ease-out hover:text-text"
+                                />
+                            </SidebarIconButton>
                         )}
                     </>
                 )}
@@ -235,7 +221,7 @@ export default function Sidebar({
                     textClassName="text-[11px]"
                     className="
                         text-text
-                        hover:bg-surface-hover
+                        
                         hover:text-text-h
                         active:translate-y-0
                         active:shadow-none
@@ -254,13 +240,13 @@ export default function Sidebar({
                     textClassName="text-[11px]"
                     className="
                         text-text
-                        hover:bg-surface-hover
+                     
                         hover:text-text-h
                         active:translate-y-0
                         active:shadow-none
                     "
                 />
             </div>
-        </div>
+        </div >
     );
 }

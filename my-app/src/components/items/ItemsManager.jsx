@@ -3,6 +3,15 @@ import { useEffect, useMemo, useState } from "react";
 import Toolbar from "./ToolBaar";
 import ItemList from "./ItemList";
 import Pagination from "./Pagination";
+import { cn } from "../../utils/cn";
+
+
+const DashedBorder = ({ className }) => {
+    return (
+        <div className={cn("my-[1rem] w-full border-dashed  border-b-1 border-border", className)}></div>
+
+    )
+}
 
 
 export default function ItemsManager({
@@ -33,12 +42,16 @@ export default function ItemsManager({
 
 
     const [search, setSearch] = useState("");
-    const [page, setPage] = useState(1);
+    // const [page, setPage] = useState(1);
     const [limit] = useState(10);
 
     const [selectedIds, setSelectedIds] = useState([]);
 
+    const [page, setPage] = useState(1);
 
+    const handlePageChange = (newPage) => {
+        setPage(newPage);
+    };
     /*
      * Decide which item type we are displaying.
      *
@@ -142,9 +155,6 @@ export default function ItemsManager({
     };
 
 
-    /*
-     * Delete all selected items.
-     */
     const handleBulkDelete = async () => {
         if (!selectedIds.length) {
             return;
@@ -179,8 +189,10 @@ export default function ItemsManager({
     };
 
 
+
+
     return (
-        <div className=" flex flex-col gap-y-2  items-between justify-between ">
+        <div className=" flex flex-col gap-y-2  items-between justify-between h-[100%] pb-[2rem]">
 
             {/* -----------------------------------------
                 Toolbar
@@ -195,9 +207,11 @@ export default function ItemsManager({
 
                 <div className="w-full text-2xl font-semibold text-start mt-3">Your Digital Vault</div>
                 <div className="w-full text-xs  text-start mt-[-1]">safely manage and access your passwords  </div>
-                <div className="my-3 w-full  border-b-1 border-border"></div>
+                {/* <div className="my-[1rem] w-full border-dashed  border-b-1 border-border"></div> */}
 
-                <div className="w-full mt-7 flex flex-row items-center ">
+                <DashedBorder />
+
+                <div className="w-full  flex flex-row items-center ">
 
 
                     <div />
@@ -218,17 +232,20 @@ export default function ItemsManager({
                     />
                 </div>
 
-
+                {/* <div className="my-[1rem] w-full border-dashed border-b-1 border-border"></div> */}
+                <DashedBorder />
                 {/* -----------------------------------------
                 Item List
                 -----------------------------------------
                 Again, pass the SAME hookData object.
-
                 ItemList → Item → ItemForm
-
                 No second useHook() call.
             */}
+
+            
                 <ItemList
+
+                    itemType={itemType}
                     hookData={hookData}
 
                     items={items}
@@ -262,7 +279,7 @@ export default function ItemsManager({
             <Pagination
                 page={pagination.page}
                 totalPages={pagination.totalPages}
-                onPageChange={setPage}
+                onPageChange={handlePageChange}
                 disabled={http.isLoading}
             />
 

@@ -37,6 +37,7 @@ const variants = {
     hover:bg-red-700
     focus:ring-red-500
   `,
+  none: "",
 };
 
 const sizes = {
