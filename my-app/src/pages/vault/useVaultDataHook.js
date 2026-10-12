@@ -106,12 +106,41 @@ export function useVaultData() {
     const createVaultItem = async (formData) => {
         const response = await http.sendRequest(
             apis_urls.createVaultItem,
+         
             "POST",
             formData
         );
 
         if (response?.success !== true) {
             return false;
+        }
+
+        const createdItem = { ...formData, ...response.data }
+
+        console.log(response, "formData", formData, "item", items);
+
+
+        if (createdItem?.id) {
+            setItems((prev) => {
+                const next = [createdItem, ...prev];
+
+                return next.length > pagination.limit
+                    ? next.slice(0, pagination.limit)
+                    : next;
+            });
+
+            setPagination((prev) => {
+                const totalItems = prev.totalItems + 1;
+
+                return {
+                    ...prev,
+                    totalItems,
+                    totalPages: Math.max(
+                        1,
+                        Math.ceil(totalItems / prev.limit)
+                    ),
+                };
+            });
         }
 
         return true;

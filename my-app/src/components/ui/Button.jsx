@@ -72,7 +72,7 @@ function ButtonRoot({
 
     >
 
-      {isLoading && <Spinner />}
+      {!disabled && isLoading && <Spinner />}
       {children}
 
     </button>

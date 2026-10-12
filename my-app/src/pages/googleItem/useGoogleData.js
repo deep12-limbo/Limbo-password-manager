@@ -52,44 +52,44 @@ export function useGoogleData() {
     };
 
     const createGoogleItem = async (formData) => {
-        const response = await http.sendRequest(
-            apis_urls.createGoogleItem,
-            "POST",
-            formData
-        );
+        try {
+            const response = await http.sendRequest(
+                apis_urls.createGoogleItem,
+                "POST",
+                formData
+            );
 
-        if (response?.success !== true) {
+            if (response?.success !== true) {
+                return false;
+            }
+
+            const createdItem = response.data?.ID
+                ? normalizeGoogleItem(response.data)
+                : null;
+
+            if (createdItem?.id) {
+                setItems((prev) => {
+                    const next = [createdItem, ...prev];
+                    return next.length > pagination.limit
+                        ? next.slice(0, pagination.limit)
+                        : next;
+                });
+
+                setPagination((prev) => {
+                    const totalItems = prev.totalItems + 1;
+                    return {
+                        ...prev,
+                        totalItems,
+                        totalPages: recomputeTotalPages(totalItems, prev.limit),
+                    };
+                });
+            }
+
+            return true;
+        } catch (error) {
+            http.setError(error.message || "Failed to create item");
             return false;
         }
-
-        const createdItem = response.data?.ID
-            ? normalizeGoogleItem(response.data)
-            : null;
-
-        if (createdItem?.id) {
-            setItems((prev) => {
-                const next = [createdItem, ...prev];
-
-                return next.length > pagination.limit
-                    ? next.slice(0, pagination.limit)
-                    : next;
-            });
-
-            setPagination((prev) => {
-                const totalItems = prev.totalItems + 1;
-
-                return {
-                    ...prev,
-                    totalItems,
-                    totalPages: recomputeTotalPages(
-                        totalItems,
-                        prev.limit
-                    ),
-                };
-            });
-        }
-
-        return true;
     };
 
     // --------------------------------------------------

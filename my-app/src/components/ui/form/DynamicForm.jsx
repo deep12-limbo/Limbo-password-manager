@@ -39,10 +39,18 @@ export default function DynamicForm({
   labelClassName = "text-[12px]",
   controlClassName = "",
   errorClassName = "",
+
+
+  // lifting state up to itemform 
+  onDirtyChange,
 }) {
   const methods = useForm({ defaultValues, mode: "onBlur" });
   const { handleSubmit, reset, control, setError, formState } = methods;
   const watchedValues = useWatch({ control });
+
+  useEffect(() => {
+    onDirtyChange?.(formState.isDirty);
+  }, [formState.isDirty, onDirtyChange]);
 
   useEffect(() => {
     reset(defaultValues);
@@ -102,6 +110,29 @@ export default function DynamicForm({
         >
           {step?.fields?.map((field) => {
             const enabled = isFieldEnabled(field, watchedValues);
+            if (field.fieldKey === "two_fa_enabled") {
+              return (
+
+
+
+                <div
+                  key={field.fieldKey}
+                  className={cn(field.className, fieldClassName, "")}
+                >
+                  <FormField.Root
+                    name={field.fieldKey}
+                    field={field}
+                    disabled={disabled || !enabled}
+                    readOnly={readOnly}
+                    labelClassName={labelClassName}
+                    controlClassName={cn(controlClassName, "h-9 border-1 border-border  pl-3 rounded-sm ")}
+                    errorClassName={errorClassName}
+                  />
+                </div>
+
+              )
+
+            }
 
             return (
               <div

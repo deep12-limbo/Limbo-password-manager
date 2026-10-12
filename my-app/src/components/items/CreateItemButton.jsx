@@ -13,14 +13,16 @@ import ROUTES from "../../routers/routespath";
 export default function CreateItemButton({
     itemType,
     disabled,
-buttonVariant = "primary",
+    buttonVariant = "primary",
     /*
      * Complete hook data coming from ItemsManager.
      * Passed straight through to ItemForm.
      */
     hookData,
+    themed = false,
+    className = "", buttonClassName = "", iconClassName = "", iconSize = 14
 
-    className = "",buttonClassName =""
+
 }) {
     const [isCreateModalOpen, setIsCreateModalOpen] =
         useState(false);
@@ -41,6 +43,7 @@ buttonVariant = "primary",
     return (
         <>
             {/* Create */}
+
             <Button.Root
                 type="button"
                 variant={buttonVariant}
@@ -48,18 +51,48 @@ buttonVariant = "primary",
                 disabled={disabled}
                 className={cn(
                     "h-7 shrink-0 gap-1.5 px-3 py-0",
-                    "text-[12px] text-white dark:text-black",
-                    "whitespace-nowrap",
+                    "text-[12px] whitespace-nowrap",
                     "max-[419px]:w-full",
+
+                    themed && [
+                        "text-white",
+                        "bg-[linear-gradient(#ffffff04_0%,#ffffff10_100%)]",
+                        "shadow-[inset_0_1px_#ffffff0d,0_0_0_1px_#ffffff40,inset_0_-1px_#0003]",
+                        "transition-[background-image,background-color,box-shadow,transform] duration-200 ease-in-out",
+                        "hover:brightness-110",
+                        "hover:shadow-[inset_0_1px_#ffffff15,0_0_0_1px_#ffffff60,inset_0_-1px_#0003,0_0_12px_#ffffff18]",
+                        "active:scale-[0.98]",
+                        "[&_svg]:text-white",
+                    ],
+
+                    !themed && [
+                        "bg-white text-black",
+                        "hover:bg-gray-100",
+                        "active:scale-[0.98]",
+                    ],
+
                     className
                 )}
             >
-                <Button.Icon>
-                    <CreateIcon size={14} />
+                <Button.Icon
+                    className={cn(
+                        "transition-colors duration-200 ease-in-out",
+                        themed ? "text-white" : "text-black",
+                        iconClassName
+                    )}
+                >
+                    <CreateIcon size={iconSize} />
                 </Button.Icon>
 
-                <Button.Text className={buttonClassName}>
-                    Create {itemType} Item
+                <Button.Text
+                    className={cn(
+                        "text-[12px] font-medium leading-4 tracking-[0.2px]",
+                        "transition-colors duration-200 ease-in-out",
+                        themed ? "text-white" : "text-black",
+                        buttonClassName
+                    )}
+                >
+                    Create {itemType} Account
                 </Button.Text>
             </Button.Root>
 

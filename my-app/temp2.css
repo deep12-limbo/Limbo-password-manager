@@ -1,0 +1,47 @@
+.glow-hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #0a0a0f; /* dark base, like Raycast's */
+}
+
+/* 1. The actual glow — a radial gradient, faded to transparent */
+.glow-hero__glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 900px;
+  height: 900px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(
+    circle,
+    rgba(0, 119, 255, 0.35) 0%,
+    rgba(0, 119, 255, 0.12) 35%,
+    rgba(0, 119, 255, 0) 70%
+  );
+  filter: blur(40px);
+  pointer-events: none;
+}
+
+/* 2. Concentric dashed rings — same centering trick, different sizes */
+.glow-hero__ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--size);
+  height: var(--size);
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 1px dashed rgba(255, 255, 255, 0.08);
+  pointer-events: none;
+}
+
+.glow-hero__content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  color: #fff;
+}

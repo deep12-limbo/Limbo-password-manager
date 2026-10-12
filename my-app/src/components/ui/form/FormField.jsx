@@ -269,7 +269,7 @@ function FormFieldSelect({
                 "flex items-center justify-between text-left",
                 isReadOnly ? "pointer-events-none" : isInteractive ? "cursor-pointer" : "",
                 controlState(hasError, isReadOnly),
-                className
+                className, "h-9"
               )}
             >
               <span

@@ -79,14 +79,14 @@ const DeleteButton = withActionButton({
  * Shared Reset + Save action row — used in create mode and
  * edit mode (while actively editing).
  */
-function FormActions({ formId, onReset, isLoading, loadingText, buttonClassName }) {
+function FormActions({ formId, onReset, isLoading, loadingText, buttonClassName, isDirty }) {
     return (
         <div className="flex w-full justify-end items-center gap-x-4 h-8 ">
             <ResetButton
                 type="button"
                 form={formId}
                 onClick={onReset}
-                disabled={isLoading}
+                disabled={isLoading || !isDirty}
                 className={buttonClassName}
             >
                 Reset
@@ -119,6 +119,7 @@ function UpdateActions({
     onDelete,
     isDeleting,
     buttonClassName,
+    isDirty,
 }) {
     const isEditing = !isReadOnly;
 
@@ -175,7 +176,7 @@ function UpdateActions({
                     type="button"
                     form={formId}
                     onClick={onReset}
-                    disabled={isReadOnly || isSaving}
+                    disabled={isReadOnly || isSaving || !isDirty}
                     className={buttonClassName}
                 >
                     Reset
@@ -184,7 +185,7 @@ function UpdateActions({
                 <SaveButton
                     type="submit"
                     form={formId}
-                    disabled={isReadOnly || isSaving}
+                    disabled={isDeleting ||  isReadOnly || isSaving}
                     isLoading={isSaving}
                     className={buttonClassName}
                     icon={<UpdateIcon size={15} className="text-text" />}
@@ -255,6 +256,8 @@ export default function ItemForm({
     submitSize = "md",
 
 }) {
+
+
 
     /*
      * Pick the correct part of hookData.
@@ -328,6 +331,7 @@ export default function ItemForm({
     const formId = "google-form";
 
     const [resetTrigger, setResetTrigger] = useState(0);
+    const [isDirty, setIsDirty] = useState(false);// to disable the reset if form isn't dirty
 
     /*
      * View/edit toggle — lives entirely here.
@@ -431,6 +435,9 @@ export default function ItemForm({
                 controlClassName={controlClassName}
                 errorClassName={errorClassName}
                 readOnly={effectiveReadOnly}
+
+                onDirtyChange={setIsDirty}
+
             />
 
             <DashedBorder></DashedBorder>
@@ -444,6 +451,7 @@ export default function ItemForm({
                     isLoading={http.isLoading}
                     loadingText={ui?.loadingText}
                     buttonClassName={buttonClassName}
+                    isDirty={isDirty}
                 />
                 // </div>
             )}
@@ -460,6 +468,7 @@ export default function ItemForm({
                     onDelete={handleDelete}
                     isDeleting={isDeleting}
                     buttonClassName={buttonClassName}
+                    isDirty={isDirty}
                 />
                 // </div>
             )}

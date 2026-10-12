@@ -66,7 +66,7 @@ export default function Toolbar({
                 Search
                 ----------------------------------------- */}
             <form
-                className="flex w-full max-w-[300px] min-w-0 flex-1 items-center gap-2 max-[419px]:max-w-none" onSubmit={handleSubmit(onSubmit)}
+                className="flex w-full max-w-[400px] min-w-0 flex-1 items-center gap-2 max-[419px]:max-w-none" onSubmit={handleSubmit(onSubmit)}
             >
                 <div className="relative w-full min-w-0">
                     <FormField.Input
@@ -75,7 +75,7 @@ export default function Toolbar({
                         placeholder="Search item"
                         disabled={disabled}
                         className={cn(
-                            "h-7 w-full min-w-0 text-[12px] bg-sidebar-item-hover",
+                            "h-7 w-full min-w-0 text-[12px] bg-sidebar-item-hover rounded-md h-8",
                             searchValue && "pr-9 "
                         )}
                     />
@@ -89,7 +89,7 @@ export default function Toolbar({
                                 "absolute right-1.5 top-1/2",
                                 "-translate-y-1/2",
                                 "flex h-5 w-5 items-center justify-center",
-                                "rounded-full text-foreground/50",
+                                "rounded-md text-foreground/50",
                                 "transition-colors duration-150",
                                 "hover:bg-foreground/10 hover:text-foreground",
                                 "disabled:pointer-events-none disabled:opacity-50",
@@ -124,7 +124,7 @@ export default function Toolbar({
                 itemType={itemType}
                 disabled={disabled}
                 hookData={hookData}
-                className="bg-neutral-900 dark:bg-neutral-50"
+                className="bg-neutral-900 dark:bg-neutral-50 h-[33px]"
             />
         </div>
     );

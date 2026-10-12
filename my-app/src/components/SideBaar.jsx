@@ -80,7 +80,8 @@ export default function Sidebar({
                 "sidebar",
                 "flex h-full w-full flex-col",
                 "border-r border-border bg-surface shadow-sm",
-                "py-3 px-2"
+                "py-3 px-2",
+
             )}
         >
             {/* Header */}
@@ -211,7 +212,7 @@ export default function Sidebar({
             </nav>
 
             {/* Theme */}
-            <div className="py-2">
+            {/* <div className="py-2">
                 <SidebarButton
                     active={false}
                     isCollapsed={isCollapsed}
@@ -227,7 +228,7 @@ export default function Sidebar({
                         active:shadow-none
                     "
                 />
-            </div>
+            </div> */}
 
             {/* Logout */}
             <div className="border-t border-border py-2">

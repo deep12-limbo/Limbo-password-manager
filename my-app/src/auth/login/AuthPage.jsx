@@ -6,7 +6,8 @@ import Button from "../../components/ui/Button";
 import useAuthData from "./useAuth";
 import ROUTES from "../../routers/routespath";
 import BgVid from "../../../public/bg-vid.mp4"
-
+import Temp from "../../../temp";
+import Temp2 from "../../../temp2";
 
 
 const TextBox = ({ children, onClick }) => {
@@ -91,6 +92,7 @@ export default function AuthPage() {
     // <div className="login flex min-h-screen w-full items-center justify-center px-4 py-8 sm:px-6 lg:px-8 relative">
     <div className="login flex h-[100vh] w-full items-center justify-center relative">
 
+      {/* <img src={img} alt="Photo" /> */}
       <video
         loop
         autoPlay
@@ -125,6 +127,12 @@ export default function AuthPage() {
           </div>
         </div> */}
 
+
+
+
+
+      {/* <Temp />
+      <Temp2 /> */}
 
       {/* Auth Box */}
       <div
@@ -168,9 +176,10 @@ export default function AuthPage() {
           fieldsWrapperClassName="flex flex-col gap-4"
           submitClassName="w-full"
           showSubmit={false}
-          FormclassName="border-0 p-0"
+          FormclassName="border-0 p-0 "
+          controlClassName="bg-#0e101c"
 
-        // submitLabel={isEditMode ? "Update" : "Save"}
+        // submitLabel={isEditMode ? "Update" -: "Save"}-
         />
 
 

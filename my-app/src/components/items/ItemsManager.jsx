@@ -4,11 +4,13 @@ import Toolbar from "./ToolBaar";
 import ItemList from "./ItemList";
 import Pagination from "./Pagination";
 import { cn } from "../../utils/cn";
+import ROUTES from "../../routers/routespath";
+import { useLocation } from "react-router-dom";
 
 
 const DashedBorder = ({ className }) => {
     return (
-        <div className={cn("my-[1rem] w-full border-dashed  border-b-1 border-border", className)}></div>
+        <div className={cn("my-[1rem] w-full border-dashed  border-b-1 border-gray-800", className)}></div>
 
     )
 }
@@ -57,10 +59,19 @@ export default function ItemsManager({
      *
      * This is unrelated to hookData.
      */
-    const itemType =
-        hookData.step === "google"
-            ? "google"
-            : "vault";
+
+
+    const location = useLocation()
+
+    const isGoogleRoute =
+        location.pathname === ROUTES.GOOGLE_ITEMS;
+
+    const isVaultRoute =
+        location.pathname === ROUTES.VAULT_ITEMS;
+    const itemType = isGoogleRoute ? "Google" : "Vault"
+
+
+    console.log("hookdata.step", hookData.step)
 
 
     /*
@@ -192,7 +203,7 @@ export default function ItemsManager({
 
 
     return (
-        <div className=" flex flex-col gap-y-2  items-between justify-between h-[100%] pb-[2rem]">
+        <div className=" flex flex-col   items-between justify-between h-[100%] pb-[2rem]">
 
             {/* -----------------------------------------
                 Toolbar
@@ -205,35 +216,38 @@ export default function ItemsManager({
 
             <div className="relative">
 
-                <div className="w-full text-2xl font-semibold text-start mt-3">Your Digital Vault</div>
-                <div className="w-full text-xs  text-start mt-[-1]">safely manage and access your passwords  </div>
+
                 {/* <div className="my-[1rem] w-full border-dashed  border-b-1 border-border"></div> */}
 
-                <DashedBorder />
+                <div className="shadow-[0_0_4px_4px_rgba(0,0,0,0.35)] px-[1rem] lg:px-[3rem] rounded-md" style={{
+                    boxShadow:
+                        "0 0 40px 20px #2727291a, 0 0 20px 3px #3030301a, inset 0 1px #ffffff1a",
+                    background:
+                        "linear-gradient(138deg, #19191ab3 22.83%, #000000b3 82.19%), #031332",
+                }}>
+                    <DashedBorder />
 
-                <div className="w-full  flex flex-row items-center ">
+                    <div className="w-full  flex flex-row items-center ">
 
 
-                    <div />
+                        <div />
 
-                    <Toolbar
-                        hookData={hookData}
+                        <Toolbar
+                            hookData={hookData}
 
-                        itemType={itemType}
+                            itemType={itemType}
 
-                        search={search}
-                        onSearchChange={handleSearchChange}
+                            search={search}
+                            onSearchChange={handleSearchChange}
 
-                        selectedCount={selectedIds.length}
-                        isAllSelected={isAllSelected}
-                        onToggleSelectAll={toggleSelectAll}
 
-                        disabled={http.isLoading}
-                    />
-                </div>
 
-                {/* <div className="my-[1rem] w-full border-dashed border-b-1 border-border"></div> */}
-                <DashedBorder />
+                            disabled={http.isLoading}
+                        />
+                    </div>
+
+                    {/* <div className="my-[1rem] w-full border-dashed border-b-1 border-border"></div> */}
+                    <DashedBorder /></div>
                 {/* -----------------------------------------
                 Item List
                 -----------------------------------------
@@ -242,7 +256,7 @@ export default function ItemsManager({
                 No second useHook() call.
             */}
 
-            
+
                 <ItemList
 
                     itemType={itemType}
@@ -288,6 +302,6 @@ export default function ItemsManager({
                 rendered by the parent. */}
             {children}
 
-        </div>
+        </div >
     );
 }

@@ -14,13 +14,12 @@ function PaginationButton({
     type = "button",
 }) {
     const baseClasses =
-        "group transition-colors focus:ring-gray-300";
-
+        "group transition-colors focus:ring-gray-800 shadow-inner  bg-gray-900 "
     const inactiveClasses =
-        "bg-transparent text-text hover:text-heading border border-gray-300 hover:bg-sidebar-item-hover dark:border-gray-700 dark:focus:ring-gray-600";
+        "text-text hover:text-heading border border-gray-50 dark:border-gray-800   dark:focus:ring-gray-600 opacity-70 hover:opacity-100 transition-colors easy-out duration-1000";
 
     const activeClasses =
-        "bg-gray-900 text-white border border-gray-900 dark:bg-white dark:text-gray-900 dark:border-white";
+        " text-white border border-gray-900 dark:bg-white dark:text-gray-900 dark:border-white";
 
     return (
         <Button.Root
@@ -75,7 +74,7 @@ export default function Pagination({
     const pages = getPages()
 
     return (
-        <div className="flex items-center justify-center gap-2">
+        <div className="flex items-center justify-center gap-2 mt-[2rem]">
             <PaginationButton
                 className="w-20"
                 disabled={disabled || page === 1}
